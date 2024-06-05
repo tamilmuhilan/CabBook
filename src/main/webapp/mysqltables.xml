@@ -1,0 +1,72 @@
+<xml>
+CREATE TABLE usertable(
+		userid INT PRIMARY KEY AUTO_INCREMENT,
+		username VARCHAR(30) NOT NULL UNIQUE ,
+		password VARCHAR(30) NOT NULL,
+		gender VARCHAR(30) NOT NULL,
+		phoneno BIGINT UNIQUE,
+		role VARCHAR(30) NOT NULL,
+		apikey VARCHAR(60) NOT NULL UNIQUE
+		);
+
+		CREATE TABLE cabtable(
+		cabid INT PRIMARY KEY AUTO_INCREMENT,
+		cabno VARCHAR(30) NOT NULL UNIQUE,
+		colour VARCHAR(30) NOT NULL,
+		seatingcapacity INT,
+		availableseat INT,
+		availableforbooking BOOLEAN,
+		driverassigned BOOLEAN
+		);
+
+
+
+		CREATE TABLE drivertable(
+		driverid INT PRIMARY KEY AUTO_INCREMENT,
+		drivername VARCHAR(30) NOT NULL,
+		assignedcabid INT,
+		driverno BIGINT UNIQUE,
+		CONSTRAINT FK_CabId FOREIGN KEY(assignedcabid) REFERENCES cabtable(cabid)
+		ON DELETE SET NULL ON UPDATE SET NULL
+		);
+
+		CREATE TABLE bookingtable (
+		bookid INT ,
+		cabid INT,
+		driverid INT,
+		pickpoint INT,
+		droppoint INT,
+		CONSTRAINT FK_bk_DriverId FOREIGN KEY(driverid) REFERENCES drivertable(driverid),
+		CONSTRAINT FK_bk_CabId FOREIGN KEY(cabid) REFERENCES cabtable(cabid)
+		);
+
+		CREATE TABLE bookingdetailtable (
+		bookid INT ,
+		cabid INT,
+		username VARCHAR(30) NOT NULL ,
+		userid INT ,
+		pickpoint INT,
+		droppoint INT,
+		booktime DATETIME,
+		CONSTRAINT FK_dtl_UserId FOREIGN KEY(userid) REFERENCES usertable(userid),
+		CONSTRAINT FK_dtl_CabId FOREIGN KEY(cabid) REFERENCES cabtable(cabid)
+
+		)
+
+		CREATE TABLE locations (
+		id INT PRIMARY KEY,
+		location_name VARCHAR(255)
+		);
+
+		INSERT INTO locations (id, location_name) VALUES
+		(1, 'Estancia'),
+		(2, 'Guduvancheri'),
+		(3, 'Urappakkam'),
+		(4, 'Vandalur'),
+		(5, 'Perungulattur'),
+		(6, 'Tambaram'),
+		(7, 'Chrompet'),
+		(8, 'Pallavaram'),
+		(9, 'Tirusulam');
+
+</xml>
